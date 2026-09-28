@@ -34,10 +34,10 @@ const TITLE_KEY = 'ipd_menu_title'
 const STAFF_TITLE_KEY = 'staff_menu_title'
 
 const SAMPLE_MEALS = [
-  { id: 'mon', day: 'Monday', breakfast: 'MTW (ကျန်းမာရေးအစားအစာ)', lunch: 'ထမင်း + ဟင်းသီးဟင်းရွက် + အသား', dinner: 'ကြက်သားဟင်း + ဟင်းချို' },
+  { id: 'mon', day: 'Monday', breakfast: 'အုန်းနို့ခေါက်ဆွဲ + လက်ဖက်ရည်', lunch: 'ထမင်း + ဟင်းသီးဟင်းရွက် + အသား', dinner: 'ကြက်သားဟင်း + ဟင်းချို' },
   { id: 'tue', day: 'Tuesday', breakfast: 'ပေါင်မုန့် + ကြက်ဥ + ကော်ဖီ', lunch: 'ထမင်း + ငါးဟင်း + ဟင်းသီးဟင်းရွက်', dinner: 'ပဲဟင်း + အသီးအရွက်' },
   { id: 'wed', day: 'Wednesday', breakfast: 'မုန့်ဟင်းခါး + လက်ဖက်ရည်', lunch: 'ထမင်း + ကြက်သား + ဟင်းချို', dinner: 'ငါးကြော် + အရွက်စုံ' },
-  { id: 'thu', day: 'Thursday', breakfast: 'MTW (Breakfast)', lunch: 'ထမင်း + ပဲကုလားဟင်း + အသီးအရွက်', dinner: 'ကြက်သားဆီပြန် + ဟင်းချို' },
+  { id: 'thu', day: 'Thursday', breakfast: 'ရှမ်းခေါက်ဆွဲ + ကော်ဖီ', lunch: 'ထမင်း + ပဲကုလားဟင်း + အသီးအရွက်', dinner: 'ကြက်သားဆီပြန် + ဟင်းချို' },
   { id: 'fri', day: 'Friday', breakfast: 'အာလူးပေါင်မုန့် + ကြက်ဥ + လက်ဖက်ရည်', lunch: 'ကြက်သားဟင်း + ထမင်း + အသီးအရွက်', dinner: 'ငါးဟင်း + ဟင်းချို' },
   { id: 'sat', day: 'Saturday', breakfast: 'မုန့်ဖက်ထုပ် + ကော်ဖီ', lunch: 'ထမင်း + အသားဟင်း + အသီးအရွက်', dinner: 'ကြက်သားဟင်း + ဟင်းသီးဟင်းရွက်' },
 ]
