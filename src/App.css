@@ -319,10 +319,11 @@
 .layout-cards .c-day { padding-top: 10px; }
 .layout-cards .day-pill { font-size: 14px; padding: 7px 18px; }
 .layout-cards .meal .dish { font-size: 17px; }
-.layout-cards .meal::before { display: block; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; opacity: 0.65; margin-bottom: 1px; }
-.layout-cards .week-table .meal:nth-of-type(2)::before { content: '🌅 Breakfast'; }
-.layout-cards .week-table .meal:nth-of-type(3)::before { content: '☀️ Lunch'; }
-.layout-cards .week-table .meal:nth-of-type(4)::before { content: '🌙 Dinner'; }
+.layout-cards .staff-table .meal:nth-of-type(2)::before,
+.layout-cards .staff-table .c-price:nth-of-type(3)::before {
+  display: block; font-size: 11px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase; opacity: 0.65; margin-bottom: 1px;
+}
 .layout-cards .staff-table .meal:nth-of-type(2)::before { content: '🍽️ Dish'; }
 .layout-cards .c-price { text-align: left; font-size: 16px; }
 .layout-cards .c-act { text-align: right; padding-bottom: 10px; }
@@ -359,37 +360,33 @@
 .layout-magazine .c-price { text-align: center; }
 .layout-magazine .day-pill { font-size: 14px; }
 
-/* ── Mobile: stack tables into cards ── */
+/* ── Mobile: stack tables into cards (skipped while exporting PNG) ── */
 @media (max-width: 640px) {
   .page { padding: 12px 10px 32px; }
   .menu-paper { padding: 20px 12px; }
   .rest-name { font-size: 28px; }
   .toolbar { padding: 12px; }
   .tabs { flex-direction: column; }
-  .menu-table { border: none; background: transparent; border-collapse: collapse; }
-  .menu-table thead { display: none; }
-  .menu-table tbody { display: block; }
-  .menu-table tbody tr { display: block; background: var(--card); border: 2px solid var(--accent); border-radius: 12px; margin-bottom: 12px; padding: 6px 4px; }
-  .menu-table tbody td { display: block; width: auto; border: none; padding: 4px 14px; text-align: left; }
-  .menu-table tbody tr:nth-child(even) { background: var(--card); }
-  .c-day { padding-top: 10px; }
-  .day-pill { font-size: 13px; }
-  .meal .dish { font-size: 16px; }
-  .week-table .meal:nth-of-type(2)::before,
-  .week-table .meal:nth-of-type(3)::before,
-  .week-table .meal:nth-of-type(4)::before,
-  .staff-table .meal:nth-of-type(2)::before,
-  .staff-table .c-price:nth-of-type(3)::before {
+  .menu-paper:not(.force-desktop) .menu-table { border: none; background: transparent; border-collapse: collapse; }
+  .menu-paper:not(.force-desktop) .menu-table thead { display: none; }
+  .menu-paper:not(.force-desktop) .menu-table tbody { display: block; }
+  .menu-paper:not(.force-desktop) .menu-table tbody tr { display: block; background: var(--card); border: 2px solid var(--accent); border-radius: 12px; margin-bottom: 12px; padding: 6px 4px; }
+  .menu-paper:not(.force-desktop) .menu-table tbody td { display: block; width: auto; border: none; padding: 4px 14px; text-align: left; background: transparent; }
+  .menu-paper:not(.force-desktop) .menu-table tbody tr:nth-child(even),
+  .menu-paper:not(.force-desktop) .menu-table tbody tr:nth-child(even) td { background: var(--card); }
+  .menu-paper:not(.force-desktop) .c-day { padding-top: 10px; }
+  .menu-paper:not(.force-desktop) .day-pill { font-size: 13px; }
+  .menu-paper:not(.force-desktop) .meal .dish { font-size: 16px; }
+  .menu-paper:not(.force-desktop) .cell-label { display: block; }
+  .menu-paper:not(.force-desktop) .staff-table .meal:nth-of-type(2)::before,
+  .menu-paper:not(.force-desktop) .staff-table .c-price:nth-of-type(3)::before {
     display: block; font-size: 11px; font-weight: 700;
     letter-spacing: 2px; text-transform: uppercase; opacity: 0.65; margin-bottom: 1px;
   }
-  .week-table .meal:nth-of-type(2)::before { content: '🌅 Breakfast'; }
-  .week-table .meal:nth-of-type(3)::before { content: '☀️ Lunch'; }
-  .week-table .meal:nth-of-type(4)::before { content: '🌙 Dinner'; }
-  .staff-table .meal:nth-of-type(2)::before { content: '🍽️ Dish'; }
-  .staff-table .c-price:nth-of-type(3)::before { content: '💰 Price'; }
-  .c-price { text-align: left; font-size: 15px; }
-  .c-act { text-align: right; padding-bottom: 8px; }
+  .menu-paper:not(.force-desktop) .staff-table .meal:nth-of-type(2)::before { content: '🍽️ Dish'; }
+  .menu-paper:not(.force-desktop) .staff-table .c-price:nth-of-type(3)::before { content: '💰 Price'; }
+  .menu-paper:not(.force-desktop) .c-price { text-align: left; font-size: 15px; }
+  .menu-paper:not(.force-desktop) .c-act { text-align: right; padding-bottom: 8px; }
   .modal-card { width: 100%; }
   .tpl-grid { grid-template-columns: repeat(2, 1fr); }
   .layout-grid { grid-template-columns: repeat(2, 1fr); }
@@ -443,6 +440,11 @@
   padding: 5px 12px; border-radius: 999px; border: 1px solid #b8941f;
 }
 .meal .dish { display: block; font-weight: 700; color: #2e2118; font-size: 15px; }
+.cell-label {
+  display: none; font-size: 11px; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase; opacity: 0.65; margin-bottom: 1px;
+}
+.layout-cards .cell-label { display: block; }
 .meal .note { display: block; font-size: 12px; font-style: italic; color: #a08c5b; margin-top: 2px; font-family: 'Segoe UI', system-ui, -apple-system, Roboto, 'Noto Sans', 'Noto Sans Myanmar', 'Myanmar Text', 'Pyidaungsittha', sans-serif; }
 .row-btn {
   border: 1px solid #b8941f; background: #fff; color: #6b5416;

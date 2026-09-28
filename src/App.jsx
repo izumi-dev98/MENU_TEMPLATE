@@ -91,6 +91,11 @@ const dayOrder = (d) => {
 
 const EMPTY_FORM = { day: 'Monday', title: '', breakfast: '', lunch: '', dinner: '' }
 const EMPTY_STAFF = { day: 'Monday', title: '', dish: '', price: '' }
+const MEAL_COLS = [
+  { key: 'breakfast', label: '🌅 Breakfast' },
+  { key: 'lunch', label: '☀️ Lunch' },
+  { key: 'dinner', label: '🌙 Dinner' },
+]
 
 const mmk = (v) => `${Number(v || 0).toLocaleString('en-US')} MMK`
 
@@ -139,6 +144,11 @@ export default function App() {
   }, [staff])
 
   const sorted = useMemo(() => [...meals].sort((a, b) => dayOrder(a.day) - dayOrder(b.day)), [meals])
+  // Only show meal columns that have at least one value (lunch/dinner optional)
+  const mealCols = useMemo(
+    () => MEAL_COLS.filter((c) => sorted.some((m) => (m[c.key] || '').trim() !== '')),
+    [sorted]
+  )
   const sortedStaff = useMemo(
     () => [...staff].sort((a, b) => dayOrder(a.day) - dayOrder(b.day)),
     [staff]
@@ -173,7 +183,7 @@ export default function App() {
     setShowModal(false)
   }
 
-  function openAdd() { setEditingId(null); setForm(EMPTY_FORM); setShowModal(true) }
+  function openAdd() { setEditingId(null); setForm({ ...EMPTY_FORM, title: menuTitle }); setShowModal(true) }
   function editMeal(m) {
     setEditingId(m.id)
     setForm({ day: m.day, title: menuTitle, breakfast: m.breakfast || '', lunch: m.lunch || '', dinner: m.dinner || '' })
@@ -203,7 +213,7 @@ export default function App() {
     setShowStaffModal(false)
   }
 
-  function openAddStaff() { setEditingStaffId(null); setStaffForm(EMPTY_STAFF); setShowStaffModal(true) }
+  function openAddStaff() { setEditingStaffId(null); setStaffForm({ ...EMPTY_STAFF, title: staffTitle }); setShowStaffModal(true) }
   function editStaff(r) {
     setEditingStaffId(r.id)
     setStaffForm({ day: r.day, title: staffTitle, dish: r.dish || '', price: String(r.price ?? '') })
@@ -435,7 +445,7 @@ export default function App() {
       {/* Exportable table */}
       <main className="menu-wrap">
         {view === 'ipd' ? (
-          <div ref={menuRef} className={`menu-paper theme-${theme} layout-${layout}`}>
+          <div ref={menuRef} className={`menu-paper theme-${theme} layout-${layout}${isExporting ? ' force-desktop' : ''}`}>
             <div className="menu-head">
               <div className="orn">✦ ─── ❦ ─── ✦</div>
               <h2 className="rest-name">{menuTitle}</h2>
@@ -449,9 +459,7 @@ export default function App() {
                 <thead>
                   <tr>
                     <th className="c-day">Day</th>
-                    <th>🌅 Breakfast</th>
-                    <th>☀️ Lunch</th>
-                    <th>🌙 Dinner</th>
+                    {mealCols.map((c) => <th key={c.key}>{c.label}</th>)}
                     {!isExporting && <th className="c-act">Edit</th>}
                   </tr>
                 </thead>
@@ -459,9 +467,12 @@ export default function App() {
                   {sorted.map((m) => (
                     <tr key={m.id}>
                       <td className="c-day"><span className="day-pill">{m.day}</span></td>
-                      <td className="meal"><span className="dish">{m.breakfast || '—'}</span></td>
-                      <td className="meal"><span className="dish">{m.lunch || '—'}</span></td>
-                      <td className="meal"><span className="dish">{m.dinner || '—'}</span></td>
+                      {mealCols.map((c) => (
+                        <td key={c.key} className="meal">
+                          <span className="cell-label">{c.label}</span>
+                          <span className="dish">{m[c.key] || '—'}</span>
+                        </td>
+                      ))}
                       {!isExporting && (
                         <td className="c-act no-export">
                           <button className="row-btn" title="Edit" onClick={() => editMeal(m)}>✎</button>
@@ -477,7 +488,7 @@ export default function App() {
             <div className="menu-foot"><div className="rule-double" /></div>
           </div>
         ) : (
-          <div ref={menuRef} className={`menu-paper theme-${theme} layout-${layout}`}>
+          <div ref={menuRef} className={`menu-paper theme-${theme} layout-${layout}${isExporting ? ' force-desktop' : ''}`}>
             <div className="menu-head">
               <div className="orn">✦ ─── ❦ ─── ✦</div>
               <h2 className="rest-name">{staffTitle}</h2>
