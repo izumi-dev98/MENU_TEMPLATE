@@ -244,7 +244,7 @@ export default function App() {
         <div className="brand">
           <span className="brand-mark">❦</span>
           <div>
-            <h1>IPD Meal Plan</h1>
+            <h1>Menu Template</h1>
           </div>
         </div>
         <div className="actions">
