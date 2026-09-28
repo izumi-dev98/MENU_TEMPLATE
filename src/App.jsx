@@ -273,8 +273,8 @@ export default function App() {
 
       {/* View tabs */}
       <div className="tabs no-export">
-        <button className={`tab ${view === 'ipd' ? 'active' : ''}`} onClick={() => setView('ipd')}>🍽️ IPD Meal Plan</button>
-        <button className={`tab ${view === 'staff' ? 'active' : ''}`} onClick={() => setView('staff')}>👥 Staff Menu Plan</button>
+        <button className={`tab ${view === 'ipd' ? 'active' : ''}`} onClick={() => setView('ipd')}>🍽️ Daily Menu</button>
+        <button className={`tab ${view === 'staff' ? 'active' : ''}`} onClick={() => setView('staff')}>👥 Menu Set</button>
       </div>
 
       <div className="controls no-export">
