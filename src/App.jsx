@@ -30,6 +30,8 @@ const LAYOUTS = [
   { id: 'magazine', name: 'Magazine', icon: '📰' },
 ]
 const LAYOUT_KEY = 'ipd_table_layout'
+const TITLE_KEY = 'ipd_menu_title'
+const STAFF_TITLE_KEY = 'staff_menu_title'
 
 const SAMPLE_MEALS = [
   { id: 'mon', day: 'Monday', breakfast: 'MTW (ကျန်းမာရေးအစားအစာ)', lunch: 'ထမင်း + ဟင်းသီးဟင်းရွက် + အသား', dinner: 'ကြက်သားဟင်း + ဟင်းချို' },
@@ -87,8 +89,8 @@ const dayOrder = (d) => {
   return i === -1 ? 99 : i
 }
 
-const EMPTY_FORM = { day: 'Monday', breakfast: '', lunch: '', dinner: '' }
-const EMPTY_STAFF = { day: 'Monday', dish: '', price: '' }
+const EMPTY_FORM = { day: 'Monday', title: '', breakfast: '', lunch: '', dinner: '' }
+const EMPTY_STAFF = { day: 'Monday', title: '', dish: '', price: '' }
 
 const mmk = (v) => `${Number(v || 0).toLocaleString('en-US')} MMK`
 
@@ -111,6 +113,12 @@ export default function App() {
   })
   const [layout, setLayout] = useState(() => {
     try { return localStorage.getItem(LAYOUT_KEY) || 'table' } catch { return 'table' }
+  })
+  const [menuTitle, setMenuTitle] = useState(() => {
+    try { return localStorage.getItem(TITLE_KEY) || 'IPD Meal Plan' } catch { return 'IPD Meal Plan' }
+  })
+  const [staffTitle, setStaffTitle] = useState(() => {
+    try { return localStorage.getItem(STAFF_TITLE_KEY) || 'Staff Menu Plan' } catch { return 'Staff Menu Plan' }
   })
   const menuRef = useRef(null)
 
@@ -147,6 +155,10 @@ export default function App() {
       setAlert('Fill at least one meal (breakfast / lunch / dinner).')
       return
     }
+    if (form.title.trim()) {
+      setMenuTitle(form.title.trim())
+      try { localStorage.setItem(TITLE_KEY, form.title.trim()) } catch { /* ignore */ }
+    }
     if (editingId) {
       setMeals((prev) => prev.map((m) => (m.id === editingId ? { ...normalizeMeal({ ...form }), id: editingId } : m)))
       setAlert(`${form.day} updated — saved.`)
@@ -164,7 +176,7 @@ export default function App() {
   function openAdd() { setEditingId(null); setForm(EMPTY_FORM); setShowModal(true) }
   function editMeal(m) {
     setEditingId(m.id)
-    setForm({ day: m.day, breakfast: m.breakfast || '', lunch: m.lunch || '', dinner: m.dinner || '' })
+    setForm({ day: m.day, title: menuTitle, breakfast: m.breakfast || '', lunch: m.lunch || '', dinner: m.dinner || '' })
     setShowModal(true)
   }
   function cancelEdit() { setEditingId(null); setForm(EMPTY_FORM); setShowModal(false) }
@@ -174,6 +186,10 @@ export default function App() {
   function submitStaff(e) {
     e.preventDefault()
     if (!staffForm.dish.trim()) { setAlert('Enter a dish name.'); return }
+    if (staffForm.title.trim()) {
+      setStaffTitle(staffForm.title.trim())
+      try { localStorage.setItem(STAFF_TITLE_KEY, staffForm.title.trim()) } catch { /* ignore */ }
+    }
     const row = { day: staffForm.day, dish: staffForm.dish.trim(), price: Number(String(staffForm.price).replace(/[^0-9.]/g, '')) || 0 }
     if (editingStaffId) {
       setStaff((prev) => prev.map((r) => (r.id === editingStaffId ? { ...row, id: editingStaffId } : r)))
@@ -190,7 +206,7 @@ export default function App() {
   function openAddStaff() { setEditingStaffId(null); setStaffForm(EMPTY_STAFF); setShowStaffModal(true) }
   function editStaff(r) {
     setEditingStaffId(r.id)
-    setStaffForm({ day: r.day, dish: r.dish || '', price: String(r.price ?? '') })
+    setStaffForm({ day: r.day, title: staffTitle, dish: r.dish || '', price: String(r.price ?? '') })
     setShowStaffModal(true)
   }
   function removeStaff(id) { setStaff((prev) => prev.filter((r) => r.id !== id)); setAlert('Staff meal removed.') }
@@ -276,6 +292,9 @@ export default function App() {
               <button type="button" className="modal-x" onClick={() => setShowModal(false)}>×</button>
             </div>
             <div className="modal-body">
+              <label>Menu Title (shows on table)
+                <input className="search" placeholder="IPD Meal Plan" value={form.title} onChange={set('title')} />
+              </label>
               <label>Day
                 <select value={form.day} onChange={set('day')} className="search">
                   {DAYS.map((d) => <option key={d} value={d}>{d}</option>)}
@@ -308,6 +327,9 @@ export default function App() {
               <button type="button" className="modal-x" onClick={() => setShowStaffModal(false)}>×</button>
             </div>
             <div className="modal-body">
+              <label>Menu Title (shows on table)
+                <input className="search" placeholder="Staff Menu Plan" value={staffForm.title} onChange={setS('title')} />
+              </label>
               <label>Day
                 <select value={staffForm.day} onChange={setS('day')} className="search">
                   {DAYS.map((d) => <option key={d} value={d}>{d}</option>)}
@@ -416,7 +438,7 @@ export default function App() {
           <div ref={menuRef} className={`menu-paper theme-${theme} layout-${layout}`}>
             <div className="menu-head">
               <div className="orn">✦ ─── ❦ ─── ✦</div>
-              <h2 className="rest-name">IPD Meal Plan</h2>
+              <h2 className="rest-name">{menuTitle}</h2>
               <div className="rule-double" />
             </div>
 
@@ -458,7 +480,7 @@ export default function App() {
           <div ref={menuRef} className={`menu-paper theme-${theme} layout-${layout}`}>
             <div className="menu-head">
               <div className="orn">✦ ─── ❦ ─── ✦</div>
-              <h2 className="rest-name">Staff Menu Plan</h2>
+              <h2 className="rest-name">{staffTitle}</h2>
               <div className="rule-double" />
             </div>
 
