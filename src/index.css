@@ -1,0 +1,8 @@
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: #efe6cf;
+  color: #3a2f23;
+  font-family: 'Segoe UI', system-ui, -apple-system, Roboto, 'Noto Sans', 'Noto Sans Myanmar', 'Myanmar Text', 'Pyidaungsittha', sans-serif;
+}
+#root { min-height: 100vh; }

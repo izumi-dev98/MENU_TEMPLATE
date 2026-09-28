@@ -1,0 +1,497 @@
+/* Classic restaurant menu — table-only, export-safe (hex colors only) */
+
+.page {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 20px 16px 48px;
+  font-family: 'Segoe UI', system-ui, -apple-system, Roboto, 'Noto Sans', 'Noto Sans Myanmar', 'Myanmar Text', 'Pyidaungsittha', sans-serif;
+  color: #3a2f23;
+}
+
+/* Toolbar */
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  align-items: center;
+  background: #2e2118;
+  color: #f3e9d2;
+  border-radius: 14px;
+  padding: 16px 18px;
+  border: 1px solid #4a3a28;
+}
+.brand { display: flex; gap: 12px; align-items: center; }
+.brand-mark {
+  font-size: 30px; color: #d4af37;
+  border: 1px solid #d4af37; border-radius: 50%;
+  width: 48px; height: 48px; display: grid; place-items: center;
+}
+.brand h1 { font-size: 22px; margin: 0; letter-spacing: 0.5px; color: #f7efda; }
+.brand p { margin: 2px 0 0; font-size: 13px; color: #cdbd97; font-family: 'Segoe UI', system-ui, -apple-system, Roboto, 'Noto Sans', 'Noto Sans Myanmar', 'Myanmar Text', 'Pyidaungsittha', sans-serif; }
+.actions { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.btn {
+  font-family: 'Segoe UI', system-ui, -apple-system, Roboto, 'Noto Sans', 'Noto Sans Myanmar', 'Myanmar Text', 'Pyidaungsittha', sans-serif;
+  font-size: 13px; font-weight: 700;
+  border-radius: 9px; padding: 9px 14px;
+  border: 1px solid #d9cba6; background: #fffdf6; color: #3a2f23;
+  cursor: pointer;
+}
+.btn:hover { filter: brightness(0.96); }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+.btn.primary { background: #d4af37; border-color: #b8941f; color: #2e2118; }
+.btn.accent { background: #1f7a4d; border-color: #166038; color: #ffffff; }
+.btn.ghost { background: transparent; color: #f3e9d2; border-color: #6b5a41; }
+.btn.danger-ghost { background: transparent; color: #ff9d9d; border-color: #7a3b3b; }
+
+.controls {
+  display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+  margin: 14px 0 10px;
+}
+.search, .select {
+  font-family: 'Segoe UI', system-ui, -apple-system, Roboto, 'Noto Sans', 'Noto Sans Myanmar', 'Myanmar Text', 'Pyidaungsittha', sans-serif;
+  padding: 10px 12px; border-radius: 9px;
+  border: 1px solid #d9cba6; background: #ffffff; font-size: 14px;
+}
+.search { flex: 1; min-width: 200px; }
+.meta { font-size: 13px; color: #7a6a4f; font-family: 'Segoe UI', system-ui, -apple-system, Roboto, 'Noto Sans', 'Noto Sans Myanmar', 'Myanmar Text', 'Pyidaungsittha', sans-serif; }
+
+.status {
+  font-family: 'Segoe UI', system-ui, -apple-system, Roboto, 'Noto Sans', 'Noto Sans Myanmar', 'Myanmar Text', 'Pyidaungsittha', sans-serif; font-size: 13px;
+  background: #fdf3d8; border: 1px solid #e3cf8d; color: #6b5416;
+  padding: 9px 12px; border-radius: 9px; margin-bottom: 12px;
+}
+
+/* Manual entry form */
+.entry-form {
+  background: #fffdf6; border: 1px solid #d9cba6; border-radius: 12px;
+  padding: 12px 14px; margin-bottom: 12px;
+}
+.form-title { font-family: 'Segoe UI', system-ui, -apple-system, Roboto, 'Noto Sans', 'Noto Sans Myanmar', 'Myanmar Text', 'Pyidaungsittha', sans-serif; font-size: 13px; color: #2e2118; }
+.form-grid { display: grid; grid-template-columns: 1.2fr 1.6fr 0.7fr 1fr auto; gap: 8px; margin-top: 10px; }
+@media (max-width: 760px) { .form-grid { grid-template-columns: 1fr 1fr; } }
+
+/* Weekly planner */
+.form-grid-week { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 10px; }
+.form-grid-week label { display: flex; flex-direction: column; gap: 4px; font-family: 'Segoe UI', system-ui, -apple-system, Roboto, 'Noto Sans', 'Noto Sans Myanmar', 'Myanmar Text', 'Pyidaungsittha', sans-serif; font-size: 12px; color: #7a6a4f; }
+.form-grid-week label:first-child { grid-column: span 1; }
+.form-btns { display: flex; gap: 8px; align-items: end; }
+
+/* Popup modal */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 50;
+  background: rgba(46, 33, 24, 0.55);
+  display: flex; align-items: center; justify-content: center;
+  padding: 16px;
+}
+.modal-card {
+  width: 440px; max-width: 100%;
+  background: #fffdf6; border-radius: 14px;
+  border: 1px solid #d9cba6; outline: 3px double #b8941f; outline-offset: 4px;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.35);
+  overflow: hidden;
+}
+.modal-head {
+  display: flex; justify-content: space-between; align-items: center;
+  background: #2e2118; color: #f3e9d2;
+  font-family: 'Segoe UI', system-ui, -apple-system, Roboto, 'Noto Sans', 'Noto Sans Myanmar', 'Myanmar Text', 'Pyidaungsittha', sans-serif; font-size: 14px;
+  padding: 12px 16px;
+}
+.modal-x {
+  border: 1px solid #6b5a41; background: transparent; color: #f3e9d2;
+  border-radius: 8px; width: 28px; height: 28px; cursor: pointer; font-size: 16px;
+}
+.modal-body { display: flex; flex-direction: column; gap: 10px; padding: 16px; }
+.modal-body label { display: flex; flex-direction: column; gap: 5px; font-family: 'Segoe UI', system-ui, -apple-system, Roboto, 'Noto Sans', 'Noto Sans Myanmar', 'Myanmar Text', 'Pyidaungsittha', sans-serif; font-size: 12px; color: #7a6a4f; }
+.modal-foot { display: flex; justify-content: flex-end; gap: 8px; padding: 0 16px 16px; }
+
+/* Alert / confirm popups */
+.alert-card { width: 360px; }
+.alert-text {
+  font-family: 'Segoe UI', system-ui, -apple-system, Roboto, 'Noto Sans', 'Noto Sans Myanmar', 'Myanmar Text', 'Pyidaungsittha', sans-serif; font-size: 14px; color: #3a2f23;
+  padding: 16px; margin: 0; line-height: 1.6;
+}
+.modal-head.danger { background: #7a2e2e; }
+.btn.danger { background: #a33; border-color: #7a2323; color: #fff; }
+
+/* ── Table design themes ── */
+.menu-paper.theme-dark { background: #262019; border-color: #6b5a41; outline-color: #d4af37; --accent: #d4af37; --card: #2e251b; --line: #4a3a28; }
+.theme-dark .rest-name { color: #f7efda; }
+.theme-dark .orn { color: #d4af37; }
+.theme-dark .rule-double { border-top-color: #d4af37; }
+.theme-dark .menu-table { border-color: #6b5a41; }
+.theme-dark .menu-table thead th { background: #3a2f23; color: #f3e9d2; border-bottom-color: #d4af37; }
+.theme-dark .menu-table tbody td { border-bottom-color: #4a3a28; color: #e8dcc0; }
+.theme-dark .menu-table tbody tr:nth-child(even) { background: #2e251b; }
+.theme-dark .day-pill { background: #d4af37; color: #262019; border-color: #d4af37; }
+.menu-paper.theme-dark .item-name, .menu-paper.theme-dark .meal .dish, .menu-paper.theme-dark .c-price { color: #f7efda; }
+.theme-dark .c-num { color: #d4af37; }
+.theme-dark .meal-tag { background: #3a2f23; color: #f3e9d2; border-color: #d4af37; }
+.theme-dark .c-desc { color: #cdbd97; }
+.theme-dark .item-cat { color: #cdbd97; }
+.theme-dark .menu-date { color: #cdbd97; }
+.theme-dark .rest-sub { color: #cdbd97; }
+.menu-paper.theme-dark .meal .note { color: #cdbd97; }
+.theme-dark .empty-sub { color: #cdbd97; }
+.theme-dark .nutri { background: #2e251b; border-color: #6b5a41; }
+.theme-dark .nutri-num { color: #f7efda; }
+.theme-dark .nutri-mid strong { color: #f7efda; }
+.theme-dark .nutri-label { color: #cdbd97; }
+.theme-dark .macro-label { color: #f3e9d2; }
+.theme-dark .macro-val { color: #cdbd97; }
+.theme-dark .macro-bar { background: #4a3a28; }
+.theme-dark .empty { color: #cdbd97; }
+.theme-dark .staff-table tfoot td { background: #3a2f23; border-top-color: #d4af37; }
+.theme-dark .total-label { color: #f3e9d2; }
+.theme-dark .staff-table .c-n { color: #e8dcc0; }
+
+.menu-paper.theme-green { background: #f6fdf8; border-color: #bcd9c4; outline-color: #1f7a4d; --accent: #1f7a4d; --card: #ffffff; --line: #d8eadd; }
+.theme-green .rest-name { color: #143d27; }
+.theme-green .orn { color: #1f7a4d; }
+.theme-green .rule-double { border-top-color: #1f7a4d; }
+.theme-green .menu-table { border-color: #bcd9c4; }
+.theme-green .menu-table thead th { background: #dff0e3; color: #143d27; border-bottom-color: #1f7a4d; }
+.theme-green .menu-table tbody td { border-bottom-color: #d8eadd; }
+.theme-green .menu-table tbody tr:nth-child(even) { background: #eef7f0; }
+.theme-green .day-pill { background: #1f7a4d; color: #ffffff; border-color: #1f7a4d; }
+.menu-paper.theme-green .item-name, .menu-paper.theme-green .meal .dish, .menu-paper.theme-green .c-price { color: #143d27; }
+.theme-green .c-num { color: #1f7a4d; }
+.theme-green .meal-tag { background: #dff0e3; color: #143d27; border-color: #1f7a4d; }
+.theme-green .staff-table tfoot td { background: #dff0e3; border-top-color: #1f7a4d; }
+.theme-green .total-label { color: #143d27; }
+
+.menu-paper.theme-blue { background: #f5faff; border-color: #bccfe8; outline-color: #1f5fa8; --accent: #1f5fa8; --card: #ffffff; --line: #d5e2f5; }
+.theme-blue .rest-name { color: #16294a; }
+.theme-blue .orn { color: #1f5fa8; }
+.theme-blue .rule-double { border-top-color: #1f5fa8; }
+.theme-blue .menu-table { border-color: #bccfe8; }
+.theme-blue .menu-table thead th { background: #dfeafb; color: #16294a; border-bottom-color: #1f5fa8; }
+.theme-blue .menu-table tbody td { border-bottom-color: #d5e2f5; }
+.theme-blue .menu-table tbody tr:nth-child(even) { background: #edf3fd; }
+.theme-blue .day-pill { background: #1f5fa8; color: #ffffff; border-color: #1f5fa8; }
+.menu-paper.theme-blue .item-name, .menu-paper.theme-blue .meal .dish, .menu-paper.theme-blue .c-price { color: #16294a; }
+.theme-blue .c-num { color: #1f5fa8; }
+.theme-blue .meal-tag { background: #dfeafb; color: #16294a; border-color: #1f5fa8; }
+.theme-blue .staff-table tfoot td { background: #dfeafb; border-top-color: #1f5fa8; }
+.theme-blue .total-label { color: #16294a; }
+
+.menu-paper.theme-red { background: #fff7f4; border-color: #e3b8a6; outline-color: #a32e2e; --accent: #a32e2e; --card: #ffffff; --line: #f0d4c4; }
+.theme-red .rest-name { color: #5a1a1a; }
+.theme-red .orn { color: #a32e2e; }
+.theme-red .rule-double { border-top-color: #a32e2e; }
+.theme-red .menu-table { border-color: #e3b8a6; }
+.theme-red .menu-table thead th { background: #f6ddd2; color: #5a1a1a; border-bottom-color: #a32e2e; }
+.theme-red .menu-table tbody td { border-bottom-color: #f0d4c4; }
+.theme-red .menu-table tbody tr:nth-child(even) { background: #fbeee6; }
+.theme-red .day-pill { background: #a32e2e; color: #ffffff; border-color: #a32e2e; }
+.menu-paper.theme-red .item-name, .menu-paper.theme-red .meal .dish, .menu-paper.theme-red .c-price { color: #5a1a1a; }
+.theme-red .c-num { color: #a32e2e; }
+.theme-red .meal-tag { background: #f6ddd2; color: #5a1a1a; border-color: #a32e2e; }
+.theme-red .staff-table tfoot td { background: #f6ddd2; border-top-color: #a32e2e; }
+.theme-red .total-label { color: #5a1a1a; }
+
+.menu-paper.theme-purple { background: #f7f3ff; border-color: #c9b8f0; outline-color: #6d28d9; --accent: #6d28d9; --card: #ffffff; --line: #ddd0f7; }
+.theme-purple .rest-name { color: #3b1d7a; }
+.theme-purple .orn { color: #6d28d9; }
+.theme-purple .rule-double { border-top-color: #6d28d9; }
+.theme-purple .menu-table { border-color: #c9b8f0; }
+.theme-purple .menu-table thead th { background: #e6dcfb; color: #3b1d7a; border-bottom-color: #6d28d9; }
+.theme-purple .menu-table tbody td { border-bottom-color: #ddd0f7; }
+.theme-purple .menu-table tbody tr:nth-child(even) { background: #efe8fd; }
+.theme-purple .day-pill { background: #6d28d9; color: #ffffff; border-color: #6d28d9; }
+.menu-paper.theme-purple .item-name, .menu-paper.theme-purple .meal .dish, .menu-paper.theme-purple .c-price { color: #3b1d7a; }
+.theme-purple .c-num { color: #6d28d9; }
+.theme-purple .meal-tag { background: #e6dcfb; color: #3b1d7a; border-color: #6d28d9; }
+.theme-purple .staff-table tfoot td { background: #e6dcfb; border-top-color: #6d28d9; }
+.theme-purple .total-label { color: #3b1d7a; }
+
+.menu-paper.theme-teal { background: #f2fbfb; border-color: #aed9d5; outline-color: #0f766e; --accent: #0f766e; --card: #ffffff; --line: #cbe7e3; }
+.theme-teal .rest-name { color: #0b3d39; }
+.theme-teal .orn { color: #0f766e; }
+.theme-teal .rule-double { border-top-color: #0f766e; }
+.theme-teal .menu-table { border-color: #aed9d5; }
+.theme-teal .menu-table thead th { background: #d7f0ed; color: #0b3d39; border-bottom-color: #0f766e; }
+.theme-teal .menu-table tbody td { border-bottom-color: #cbe7e3; }
+.theme-teal .menu-table tbody tr:nth-child(even) { background: #e6f5f3; }
+.theme-teal .day-pill { background: #0f766e; color: #ffffff; border-color: #0f766e; }
+.menu-paper.theme-teal .item-name, .menu-paper.theme-teal .meal .dish, .menu-paper.theme-teal .c-price { color: #0b3d39; }
+.theme-teal .c-num { color: #0f766e; }
+.theme-teal .meal-tag { background: #d7f0ed; color: #0b3d39; border-color: #0f766e; }
+.theme-teal .staff-table tfoot td { background: #d7f0ed; border-top-color: #0f766e; }
+.theme-teal .total-label { color: #0b3d39; }
+
+.menu-paper.theme-orange { background: #fff8f1; border-color: #ecc9a8; outline-color: #c2571a; --accent: #c2571a; --card: #ffffff; --line: #f3d9bc; }
+.theme-orange .rest-name { color: #6b2d0c; }
+.theme-orange .orn { color: #c2571a; }
+.theme-orange .rule-double { border-top-color: #c2571a; }
+.theme-orange .menu-table { border-color: #ecc9a8; }
+.theme-orange .menu-table thead th { background: #fbe3cd; color: #6b2d0c; border-bottom-color: #c2571a; }
+.theme-orange .menu-table tbody td { border-bottom-color: #f3d9bc; }
+.theme-orange .menu-table tbody tr:nth-child(even) { background: #fdf0e1; }
+.theme-orange .day-pill { background: #c2571a; color: #ffffff; border-color: #c2571a; }
+.menu-paper.theme-orange .item-name, .menu-paper.theme-orange .meal .dish, .menu-paper.theme-orange .c-price { color: #6b2d0c; }
+.theme-orange .c-num { color: #c2571a; }
+.theme-orange .meal-tag { background: #fbe3cd; color: #6b2d0c; border-color: #c2571a; }
+.theme-orange .staff-table tfoot td { background: #fbe3cd; border-top-color: #c2571a; }
+.theme-orange .total-label { color: #6b2d0c; }
+
+.menu-paper.theme-pink { background: #fff5f8; border-color: #efb3c9; outline-color: #c2185b; --accent: #c2185b; --card: #ffffff; --line: #f6cfde; }
+.theme-pink .rest-name { color: #7a1039; }
+.theme-pink .orn { color: #c2185b; }
+.theme-pink .rule-double { border-top-color: #c2185b; }
+.theme-pink .menu-table { border-color: #efb3c9; }
+.theme-pink .menu-table thead th { background: #fbdcea; color: #7a1039; border-bottom-color: #c2185b; }
+.theme-pink .menu-table tbody td { border-bottom-color: #f6cfde; }
+.theme-pink .menu-table tbody tr:nth-child(even) { background: #fdeef4; }
+.theme-pink .day-pill { background: #c2185b; color: #ffffff; border-color: #c2185b; }
+.menu-paper.theme-pink .item-name, .menu-paper.theme-pink .meal .dish, .menu-paper.theme-pink .c-price { color: #7a1039; }
+.theme-pink .c-num { color: #c2185b; }
+.theme-pink .meal-tag { background: #fbdcea; color: #7a1039; border-color: #c2185b; }
+.theme-pink .staff-table tfoot td { background: #fbdcea; border-top-color: #c2185b; }
+.theme-pink .total-label { color: #7a1039; }
+
+.menu-paper.theme-navy { background: #eef2f7; border-color: #aebdce; outline-color: #0f2a4a; --accent: #0f2a4a; --card: #ffffff; --line: #cfdae8; }
+.theme-navy .rest-name { color: #0f2a4a; }
+.theme-navy .orn { color: #0f2a4a; }
+.theme-navy .rule-double { border-top-color: #0f2a4a; }
+.theme-navy .menu-table { border-color: #aebdce; }
+.theme-navy .menu-table thead th { background: #d7e1ef; color: #0f2a4a; border-bottom-color: #0f2a4a; }
+.theme-navy .menu-table tbody td { border-bottom-color: #cfdae8; }
+.theme-navy .menu-table tbody tr:nth-child(even) { background: #e2eaf4; }
+.theme-navy .day-pill { background: #0f2a4a; color: #ffffff; border-color: #0f2a4a; }
+.menu-paper.theme-navy .item-name, .menu-paper.theme-navy .meal .dish, .menu-paper.theme-navy .c-price { color: #0f2a4a; }
+.theme-navy .c-num { color: #0f2a4a; }
+.theme-navy .meal-tag { background: #d7e1ef; color: #0f2a4a; border-color: #0f2a4a; }
+.theme-navy .staff-table tfoot td { background: #d7e1ef; border-top-color: #0f2a4a; }
+.theme-navy .total-label { color: #0f2a4a; }
+
+.menu-paper.theme-coffee { background: #f7f1ea; border-color: #cdb694; outline-color: #5d3a1a; --accent: #5d3a1a; --card: #fffdf9; --line: #e3d3b8; }
+.theme-coffee .rest-name { color: #4a2c12; }
+.theme-coffee .orn { color: #5d3a1a; }
+.theme-coffee .rule-double { border-top-color: #5d3a1a; }
+.theme-coffee .menu-table { border-color: #cdb694; }
+.theme-coffee .menu-table thead th { background: #e7d6c0; color: #4a2c12; border-bottom-color: #5d3a1a; }
+.theme-coffee .menu-table tbody td { border-bottom-color: #e3d3b8; }
+.theme-coffee .menu-table tbody tr:nth-child(even) { background: #f1e7d7; }
+.theme-coffee .day-pill { background: #5d3a1a; color: #ffffff; border-color: #5d3a1a; }
+.menu-paper.theme-coffee .item-name, .menu-paper.theme-coffee .meal .dish, .menu-paper.theme-coffee .c-price { color: #4a2c12; }
+.theme-coffee .c-num { color: #5d3a1a; }
+.theme-coffee .meal-tag { background: #e7d6c0; color: #4a2c12; border-color: #5d3a1a; }
+.theme-coffee .staff-table tfoot td { background: #e7d6c0; border-top-color: #5d3a1a; }
+.theme-coffee .total-label { color: #4a2c12; }
+
+/* ── Template picker popup ── */
+.tpl-modal { width: 620px; }
+.tpl-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 10px; padding: 16px;
+}
+.tpl-card {
+  border: 2px solid #d9cba6; border-radius: 10px; background: #fff;
+  padding: 10px; cursor: pointer; display: flex; flex-direction: column; gap: 8px; align-items: center;
+  font-family: 'Segoe UI', system-ui, -apple-system, Roboto, 'Noto Sans', 'Noto Sans Myanmar', 'Myanmar Text', 'Pyidaungsittha', sans-serif;
+}
+.tpl-card:hover { border-color: #b8941f; }
+.tpl-card.selected { border-color: #1f7a4d; box-shadow: 0 0 0 2px rgba(31,122,77,0.25); }
+.tpl-preview {
+  width: 100%; height: 74px; border-radius: 6px; border: 2px solid;
+  display: flex; flex-direction: column; gap: 6px; padding: 8px;
+}
+.tpl-bar { height: 16px; border-radius: 4px; border: 1px solid; }
+.tpl-line { height: 8px; border-radius: 4px; }
+.tpl-line.short { width: 60%; }
+.tpl-name { font-size: 12px; font-weight: 700; color: #2e2118; }
+.tpl-using { font-size: 11px; font-weight: 700; color: #1f7a4d; }
+.tpl-section {
+  font-size: 13px; font-weight: 700; color: #2e2118;
+  margin: 0; padding: 14px 16px 0;
+}
+.layout-grid { grid-template-columns: repeat(3, 1fr); }
+.layout-icon { font-size: 26px; color: #2e2118; letter-spacing: 2px; }
+
+/* ── Card layout ── */
+.layout-cards .menu-table { border: none; background: transparent; }
+.layout-cards .menu-table thead { display: none; }
+.layout-cards .menu-table tbody { display: block; }
+.layout-cards .menu-table tbody tr { display: block; background: var(--card); border: 2px solid var(--accent); border-radius: 14px; margin-bottom: 14px; padding: 8px 6px; }
+.layout-cards .menu-table tbody td { display: block; border: none; padding: 5px 16px; }
+.layout-cards .c-day { padding-top: 10px; }
+.layout-cards .day-pill { font-size: 14px; padding: 7px 18px; }
+.layout-cards .meal .dish { font-size: 17px; }
+.layout-cards .meal::before { display: block; font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; opacity: 0.65; margin-bottom: 1px; }
+.layout-cards .week-table .meal:nth-of-type(2)::before { content: '🌅 Breakfast'; }
+.layout-cards .week-table .meal:nth-of-type(3)::before { content: '☀️ Lunch'; }
+.layout-cards .week-table .meal:nth-of-type(4)::before { content: '🌙 Dinner'; }
+.layout-cards .staff-table .meal:nth-of-type(2)::before { content: '🍽️ Dish'; }
+.layout-cards .c-price { text-align: left; font-size: 16px; }
+.layout-cards .c-act { text-align: right; padding-bottom: 10px; }
+
+/* ── Minimal layout ── */
+.layout-minimal .menu-table { border: none; }
+.layout-minimal .menu-table thead th { background: transparent; border-bottom: 2px solid var(--accent); padding: 8px 12px; }
+.layout-minimal .menu-table tbody td { border: none; border-bottom: 1px solid var(--line); padding: 14px 12px; background: transparent; }
+.layout-minimal .menu-table tbody tr:nth-child(even) { background: transparent; }
+.layout-minimal .day-pill { background: transparent; border: none; padding: 0; font-size: 16px; color: var(--accent); }
+.layout-minimal .staff-table tfoot td { background: transparent; }
+
+/* ── Compact layout ── */
+.layout-compact .menu-table thead th { padding: 6px 10px; font-size: 10px; }
+.layout-compact .menu-table tbody td { padding: 6px 10px; font-size: 13px; }
+.layout-compact .meal .dish { font-size: 14px; }
+.layout-compact .day-pill { font-size: 11px; padding: 3px 10px; }
+.layout-compact .rest-name { font-size: 30px; }
+
+/* ── Pill rows layout ── */
+.layout-pills .menu-table { border: none; background: transparent; border-collapse: separate; border-spacing: 0 10px; }
+.layout-pills .menu-table thead th { background: transparent; border: none; color: var(--accent); }
+.layout-pills .menu-table tbody td { background: var(--card); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 12px 14px; }
+.layout-pills .menu-table tbody tr:nth-child(even) td { background: var(--card); }
+.layout-pills .menu-table tbody td:first-child { border-left: 3px solid var(--accent); border-top-left-radius: 12px; border-bottom-left-radius: 12px; }
+.layout-pills .menu-table tbody td:last-child { border-right: 1px solid var(--line); border-top-right-radius: 12px; border-bottom-right-radius: 12px; }
+
+/* ── Magazine layout ── */
+.layout-magazine .menu-table { border-left: none; border-right: none; }
+.layout-magazine .menu-table thead th { background: transparent; border-bottom: 3px double var(--accent); font-size: 13px; text-align: center; }
+.layout-magazine .menu-table tbody td { border: none; border-bottom: 1px dotted var(--accent); padding: 16px 12px; text-align: center; background: transparent; }
+.layout-magazine .menu-table tbody tr:nth-child(even) { background: transparent; }
+.layout-magazine .meal .dish { font-style: italic; font-size: 17px; }
+.layout-magazine .c-price { text-align: center; }
+.layout-magazine .day-pill { font-size: 14px; }
+
+/* View tabs */
+.tabs { display: flex; gap: 8px; margin: 14px 0 0; }
+.tab {
+  flex: 1; font-family: 'Segoe UI', system-ui, -apple-system, Roboto, 'Noto Sans', 'Noto Sans Myanmar', 'Myanmar Text', 'Pyidaungsittha', sans-serif; font-size: 14px; font-weight: 700;
+  padding: 11px; border-radius: 10px; cursor: pointer;
+  border: 1px solid #d9cba6; background: #fffdf6; color: #7a6a4f;
+}
+.tab.active { background: #2e2118; color: #f3e9d2; border-color: #b8941f; }
+
+/* Staff form rows */
+.modal-row2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.modal-row2 label { display: flex; flex-direction: column; gap: 5px; }
+.modal-row4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.modal-row4 label { display: flex; flex-direction: column; gap: 5px; }
+
+/* Nutrition summary */
+.nutri {
+  display: flex; gap: 16px; align-items: center; flex-wrap: wrap;
+  background: #fbf5e3; border: 1px solid #d9cba6; border-radius: 10px;
+  padding: 14px 16px; margin-bottom: 14px;
+}
+.nutri-kcal { display: flex; flex-direction: column; min-width: 110px; }
+.nutri-num { font-size: 34px; font-weight: 700; color: #2e2118; }
+.nutri-label { font-family: 'Segoe UI', system-ui, -apple-system, Roboto, 'Noto Sans', 'Noto Sans Myanmar', 'Myanmar Text', 'Pyidaungsittha', sans-serif; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: #a08c5b; }
+.nutri-mid { display: flex; gap: 18px; font-family: 'Segoe UI', system-ui, -apple-system, Roboto, 'Noto Sans', 'Noto Sans Myanmar', 'Myanmar Text', 'Pyidaungsittha', sans-serif; font-size: 13px; }
+.nutri-mid div { display: flex; flex-direction: column; gap: 2px; }
+.nutri-macros { flex: 1; min-width: 220px; display: flex; flex-direction: column; gap: 6px; }
+.macro-label { font-family: 'Segoe UI', system-ui, -apple-system, Roboto, 'Noto Sans', 'Noto Sans Myanmar', 'Myanmar Text', 'Pyidaungsittha', sans-serif; font-size: 12px; font-weight: 700; color: #2e2118; }
+.macro-val { font-family: 'Segoe UI', system-ui, -apple-system, Roboto, 'Noto Sans', 'Noto Sans Myanmar', 'Myanmar Text', 'Pyidaungsittha', sans-serif; font-size: 12px; color: #7a6a4f; margin-left: 6px; }
+.macro-bar { height: 8px; background: #e8dcc0; border-radius: 999px; overflow: hidden; }
+.macro-fill { height: 100%; background: #1f7a4d; border-radius: 999px; }
+
+/* Staff table */
+.staff-table .c-n { width: 70px; text-align: right; white-space: nowrap; font-family: 'Segoe UI', system-ui, -apple-system, Roboto, 'Noto Sans', 'Noto Sans Myanmar', 'Myanmar Text', 'Pyidaungsittha', sans-serif; font-size: 13px; }
+.staff-table thead .c-n { text-align: right; }
+.meal-tag {
+  display: inline-block; font-family: 'Segoe UI', system-ui, -apple-system, Roboto, 'Noto Sans', 'Noto Sans Myanmar', 'Myanmar Text', 'Pyidaungsittha', sans-serif; font-size: 12px; font-weight: 700;
+  background: #f3e9d2; border: 1px solid #b8941f; border-radius: 999px; padding: 3px 12px; color: #2e2118;
+}
+.total-label { text-align: right; font-family: 'Segoe UI', system-ui, -apple-system, Roboto, 'Noto Sans', 'Noto Sans Myanmar', 'Myanmar Text', 'Pyidaungsittha', sans-serif; font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: #2e2118; }
+.staff-table tfoot td { background: #f3e9d2; border-top: 2px solid #b8941f; padding: 10px 12px; }
+.week-table .c-day { width: 110px; }
+.day-pill {
+  display: inline-block; background: #2e2118; color: #f3e9d2;
+  font-family: 'Segoe UI', system-ui, -apple-system, Roboto, 'Noto Sans', 'Noto Sans Myanmar', 'Myanmar Text', 'Pyidaungsittha', sans-serif; font-size: 12px; font-weight: 700;
+  padding: 5px 12px; border-radius: 999px; border: 1px solid #b8941f;
+}
+.meal .dish { display: block; font-weight: 700; color: #2e2118; font-size: 15px; }
+.meal .note { display: block; font-size: 12px; font-style: italic; color: #a08c5b; margin-top: 2px; font-family: 'Segoe UI', system-ui, -apple-system, Roboto, 'Noto Sans', 'Noto Sans Myanmar', 'Myanmar Text', 'Pyidaungsittha', sans-serif; }
+.row-btn {
+  border: 1px solid #b8941f; background: #fff; color: #6b5416;
+  border-radius: 6px; width: 24px; height: 24px; cursor: pointer; font-size: 12px; margin-right: 4px;
+}
+@media (max-width: 760px) { .form-grid-week { grid-template-columns: 1fr 1fr; } }
+
+/* Exportable paper */
+.menu-wrap { display: flex; justify-content: center; }
+.menu-paper {
+  width: 100%;
+  background: #fffdf6;
+  border: 1px solid #d9cba6;
+  outline: 4px double #b8941f;
+  outline-offset: 6px;
+  border-radius: 4px;
+  padding: 36px 36px 28px;
+  margin-top: 12px;
+  --accent: #b8941f;
+  --card: #ffffff;
+  --line: #e8dcc0;
+}
+.menu-head { text-align: center; }
+.orn { color: #b8941f; letter-spacing: 4px; font-size: 14px; }
+.rest-name {
+  font-size: 44px; margin: 6px 0 4px; font-weight: 700;
+  color: #2e2118; letter-spacing: 1px;
+}
+.rest-sub { font-size: 12px; letter-spacing: 3px; color: #7a6a4f; font-family: 'Segoe UI', system-ui, -apple-system, Roboto, 'Noto Sans', 'Noto Sans Myanmar', 'Myanmar Text', 'Pyidaungsittha', sans-serif; }
+.rule-double { border-top: 3px double #b8941f; margin: 14px 0; }
+.menu-date { font-size: 13px; font-style: italic; color: #7a6a4f; margin: 0; }
+
+.cat-block { margin-top: 22px; }
+.cat-banner {
+  text-align: center; margin-bottom: 10px;
+}
+.cat-banner span {
+  display: inline-block;
+  background: #2e2118; color: #f3e9d2;
+  font-size: 15px; letter-spacing: 4px; text-transform: uppercase;
+  padding: 7px 26px; border-radius: 999px;
+  border: 1px solid #b8941f;
+  font-family: 'Segoe UI', system-ui, -apple-system, Roboto, 'Noto Sans', 'Noto Sans Myanmar', 'Myanmar Text', 'Pyidaungsittha', sans-serif; font-weight: 700;
+}
+
+.menu-table {
+  width: 100%; border-collapse: collapse;
+  border: 1px solid #d9cba6;
+}
+.menu-table thead th {
+  background: #f3e9d2; color: #2e2118;
+  font-family: 'Segoe UI', system-ui, -apple-system, Roboto, 'Noto Sans', 'Noto Sans Myanmar', 'Myanmar Text', 'Pyidaungsittha', sans-serif; font-size: 11px; letter-spacing: 2px; text-transform: uppercase;
+  padding: 10px 12px; border-bottom: 2px solid #b8941f; text-align: left;
+}
+.menu-table tbody td {
+  padding: 11px 12px; border-bottom: 1px solid #e8dcc0; vertical-align: top;
+  font-size: 15px;
+}
+.menu-table tbody tr:nth-child(even) { background: #fbf5e3; }
+.c-num { width: 44px; color: #b8941f; font-weight: 700; }
+.c-item { width: 26%; }
+.item-name { display: block; font-weight: 700; color: #2e2118; font-size: 16px; }
+.item-cat { display: block; font-size: 11px; color: #a08c5b; font-family: 'Segoe UI', system-ui, -apple-system, Roboto, 'Noto Sans', 'Noto Sans Myanmar', 'Myanmar Text', 'Pyidaungsittha', sans-serif; letter-spacing: 1px; text-transform: uppercase; margin-top: 2px; }
+.c-desc { color: #5d4f3a; font-style: italic; }
+.c-price { width: 110px; text-align: right; font-weight: 700; color: #2e2118; white-space: nowrap; }
+.c-act { width: 76px; text-align: center; white-space: nowrap; vertical-align: middle; }
+.row-del {
+  border: 1px solid #d9a0a0; background: #fff; color: #a33;
+  border-radius: 6px; width: 24px; height: 24px; cursor: pointer; font-size: 14px; line-height: 1;
+}
+
+.empty { text-align: center; padding: 40px 10px; color: #7a6a4f; }
+.empty-sub { font-family: 'Segoe UI', system-ui, -apple-system, Roboto, 'Noto Sans', 'Noto Sans Myanmar', 'Myanmar Text', 'Pyidaungsittha', sans-serif; font-size: 13px; }
+
+.menu-foot { text-align: center; margin-top: 24px; font-size: 13px; font-style: italic; color: #7a6a4f; }
+
+.help {
+  margin-top: 18px; font-family: 'Segoe UI', system-ui, -apple-system, Roboto, 'Noto Sans', 'Noto Sans Myanmar', 'Myanmar Text', 'Pyidaungsittha', sans-serif; font-size: 13px; color: #7a6a4f;
+  background: #fffdf6; border: 1px dashed #d9cba6; border-radius: 10px; padding: 12px 14px;
+}
+.help code { background: #f3e9d2; padding: 1px 6px; border-radius: 5px; }
+
+@media (max-width: 640px) {
+  .menu-paper { padding: 22px 14px; }
+  .rest-name { font-size: 30px; }
+  .c-desc { display: none; }
+  .menu-table thead th:nth-child(3) { display: none; }
+}
