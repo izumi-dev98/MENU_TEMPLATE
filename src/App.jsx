@@ -226,7 +226,14 @@ export default function App() {
     setIsExporting(true)
     await new Promise((r) => setTimeout(r, 150))
     try {
-      const dataUrl = await toPng(menuRef.current, { cacheBust: true, pixelRatio: 3, backgroundColor: '#fffdf6' })
+      // Fixed desktop width so mobile exports never come out squeezed/clipped
+      const dataUrl = await toPng(menuRef.current, {
+        cacheBust: true,
+        pixelRatio: 3,
+        backgroundColor: '#fffdf6',
+        width: 920,
+        style: { width: '920px', margin: '0' },
+      })
       const a = document.createElement('a')
       a.download = `${view === 'staff' ? 'staff-menu-plan' : 'ipd-meal-plan'}-${new Date().toISOString().slice(0, 10)}.png`
       a.href = dataUrl
