@@ -1,19 +1,54 @@
-# React + Vite
+# Menu Template — IPD Meal Plan & Staff Menu Plan
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A mobile-friendly weekly meal planner. Manage two menu tables
+(**Daily Menu** and **Menu Set**), restyle them with 11 designs × 6 layouts,
+and download any table as a PNG image. All data persists in `localStorage`.
 
-Currently, two official plugins are available:
+Live demo: `https://menu-template-drab.vercel.app` (Vercel)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Features
 
-## React Compiler
+- **Two menu views** (tab switcher)
+  - 🍽️ Daily Menu — Day / Breakfast / Lunch / Dinner
+  - 👥 Menu Set — Day / Dish / Price (MMK format)
+- **Popup forms** — add / edit entries, rename the table title from the form
+- **Smart table** — optional Lunch/Dinner columns auto-hide when empty
+- **11 table designs** — Classic Gold, Dark Elegant, Fresh Green, Ocean Blue,
+  Lacquer Red, Royal Purple, Teal Fresh, Sunset Orange, Sakura Pink,
+  Steel Navy, Coffee Brown
+- **6 layouts** — Classic Table, Card View, Minimal List, Compact,
+  Pill Rows, Magazine
+- **PNG export** — desktop exports a 920px table; mobile exports a
+  phone-size card image with full data
+- **Popup alerts** — all notices and the delete confirmation are modals
+- **Mobile responsive** — tables stack into labeled cards under 640px
+- **localStorage persistence** — separate keys per view, theme, layout and titles
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+## Tech
 
-Note: This will impact Vite dev & build performances.
-You can also try [the experimental native React Compiler support in plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md#rust-react-compiler) by using `compiler: true` in the plugin options instead of using the Babel plugin.
+- React 19 + Vite
+- `html-to-image` for PNG export (no other runtime deps)
 
-## Expanding the ESLint configuration
+## Getting started
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+npm install
+npm run dev      # http://localhost:5173
+npm run build    # production build → dist/
+npm run preview  # preview the build
+```
+
+## Project structure
+
+```
+src/
+  App.jsx        # all views, forms, popups, export logic
+  App.css        # themes, layouts, responsive rules
+  index.css      # base page styles
+  main.jsx       # React entry
+```
+
+## Notes
+
+- Edit buttons (✎ / ×) are hidden automatically during PNG export.
+- Design + layout choices are saved and applied to both tables.
