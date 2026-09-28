@@ -530,6 +530,4 @@
 @media (max-width: 640px) {
   .menu-paper { padding: 22px 14px; }
   .rest-name { font-size: 30px; }
-  .c-desc { display: none; }
-  .menu-table thead th:nth-child(3) { display: none; }
 }
