@@ -106,6 +106,7 @@ export default function App() {
   const [alert, setAlert] = useState(null)
   const [confirmClear, setConfirmClear] = useState(false)
   const [isExporting, setIsExporting] = useState(false)
+  const [exportDesktop, setExportDesktop] = useState(false)
   const [editingId, setEditingId] = useState(null)
   const [form, setForm] = useState(EMPTY_FORM)
   const [staffForm, setStaffForm] = useState(EMPTY_STAFF)
@@ -223,16 +224,18 @@ export default function App() {
 
   async function downloadImage() {
     if (!menuRef.current) return
+    // Mobile → export the stacked card view at phone size (full data).
+    // Desktop → export at fixed 920px table width.
+    const desktop = window.innerWidth > 640
     setIsExporting(true)
+    setExportDesktop(desktop)
     await new Promise((r) => setTimeout(r, 150))
     try {
-      // Fixed desktop width so mobile exports never come out squeezed/clipped
       const dataUrl = await toPng(menuRef.current, {
         cacheBust: true,
         pixelRatio: 3,
         backgroundColor: '#fffdf6',
-        width: 920,
-        style: { width: '920px', margin: '0' },
+        ...(desktop ? { width: 920, style: { width: '920px', margin: '0' } } : {}),
       })
       const a = document.createElement('a')
       a.download = `${view === 'staff' ? 'staff-menu-plan' : 'ipd-meal-plan'}-${new Date().toISOString().slice(0, 10)}.png`
@@ -240,7 +243,7 @@ export default function App() {
       a.click()
       setAlert('Menu image downloaded (PNG).')
     } catch (err) { setAlert(`Image export failed: ${err.message}`) }
-    finally { setIsExporting(false) }
+    finally { setIsExporting(false); setExportDesktop(false) }
   }
 
   function applyTheme(id) {
@@ -452,7 +455,7 @@ export default function App() {
       {/* Exportable table */}
       <main className="menu-wrap">
         {view === 'ipd' ? (
-          <div ref={menuRef} className={`menu-paper theme-${theme} layout-${layout}${isExporting ? ' force-desktop' : ''}`}>
+          <div ref={menuRef} className={`menu-paper theme-${theme} layout-${layout}${exportDesktop ? ' force-desktop' : ''}`}>
             <div className="menu-head">
               <div className="orn">✦ ─── ❦ ─── ✦</div>
               <h2 className="rest-name">{menuTitle}</h2>
@@ -495,7 +498,7 @@ export default function App() {
             <div className="menu-foot"><div className="rule-double" /></div>
           </div>
         ) : (
-          <div ref={menuRef} className={`menu-paper theme-${theme} layout-${layout}${isExporting ? ' force-desktop' : ''}`}>
+          <div ref={menuRef} className={`menu-paper theme-${theme} layout-${layout}${exportDesktop ? ' force-desktop' : ''}`}>
             <div className="menu-head">
               <div className="orn">✦ ─── ❦ ─── ✦</div>
               <h2 className="rest-name">{staffTitle}</h2>
