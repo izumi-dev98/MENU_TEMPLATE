@@ -359,6 +359,42 @@
 .layout-magazine .c-price { text-align: center; }
 .layout-magazine .day-pill { font-size: 14px; }
 
+/* ── Mobile: stack tables into cards ── */
+@media (max-width: 640px) {
+  .page { padding: 12px 10px 32px; }
+  .menu-paper { padding: 20px 12px; }
+  .rest-name { font-size: 28px; }
+  .toolbar { padding: 12px; }
+  .tabs { flex-direction: column; }
+  .menu-table { border: none; background: transparent; border-collapse: collapse; }
+  .menu-table thead { display: none; }
+  .menu-table tbody { display: block; }
+  .menu-table tbody tr { display: block; background: var(--card); border: 2px solid var(--accent); border-radius: 12px; margin-bottom: 12px; padding: 6px 4px; }
+  .menu-table tbody td { display: block; width: auto; border: none; padding: 4px 14px; text-align: left; }
+  .menu-table tbody tr:nth-child(even) { background: var(--card); }
+  .c-day { padding-top: 10px; }
+  .day-pill { font-size: 13px; }
+  .meal .dish { font-size: 16px; }
+  .week-table .meal:nth-of-type(2)::before,
+  .week-table .meal:nth-of-type(3)::before,
+  .week-table .meal:nth-of-type(4)::before,
+  .staff-table .meal:nth-of-type(2)::before,
+  .staff-table .c-price:nth-of-type(3)::before {
+    display: block; font-size: 11px; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase; opacity: 0.65; margin-bottom: 1px;
+  }
+  .week-table .meal:nth-of-type(2)::before { content: '🌅 Breakfast'; }
+  .week-table .meal:nth-of-type(3)::before { content: '☀️ Lunch'; }
+  .week-table .meal:nth-of-type(4)::before { content: '🌙 Dinner'; }
+  .staff-table .meal:nth-of-type(2)::before { content: '🍽️ Dish'; }
+  .staff-table .c-price:nth-of-type(3)::before { content: '💰 Price'; }
+  .c-price { text-align: left; font-size: 15px; }
+  .c-act { text-align: right; padding-bottom: 8px; }
+  .modal-card { width: 100%; }
+  .tpl-grid { grid-template-columns: repeat(2, 1fr); }
+  .layout-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
 /* View tabs */
 .tabs { display: flex; gap: 8px; margin: 14px 0 0; }
 .tab {
